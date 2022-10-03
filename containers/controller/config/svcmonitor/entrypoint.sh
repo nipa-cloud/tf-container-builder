@@ -5,7 +5,11 @@ source /common.sh
 pre_start_init
 
 host_ip=$(get_listen_ip_for_node CONFIG)
-cassandra_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+if [[ "$CONFIGDB_CASSANDRA_DRIVER" == "cql" ]] ; then
+  cassandra_server_list=$(echo $CONFIGDB_CQL_SERVERS | sed 's/,/ /g')
+else
+  cassandra_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+fi
 
 mkdir -p /etc/contrail
 cat > /etc/contrail/contrail-svc-monitor.conf << EOM
@@ -41,6 +45,8 @@ ca_certs=${SERVER_CA_CERTFILE}
 # Analytics server list used to get vrouter status and schedule service instance
 analytics_server_list=$ANALYTICS_SERVERS
 aaa_mode = $AAA_MODE
+[CASSANDRA]
+cassandra_driver=$CONFIGDB_CASSANDRA_DRIVER
 
 $sandesh_client_config
 

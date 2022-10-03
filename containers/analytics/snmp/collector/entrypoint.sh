@@ -7,7 +7,11 @@ pre_start_init
 
 host_ip=$(get_listen_ip_for_node ANALYTICS_SNMP)
 rabbitmq_server_list=$(echo $RABBITMQ_SERVERS | sed 's/,/ /g')
-config_db_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+if [[ "$CONFIGDB_CASSANDRA_DRIVER" == "cql" ]] ; then
+  config_db_server_list=$(echo $CONFIGDB_CQL_SERVERS | sed 's/,/ /g')
+else
+  config_db_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+fi
 
 mkdir -p /etc/contrail
 cat > /etc/contrail/tf-snmp-collector.conf << EOM
@@ -31,6 +35,7 @@ api_server_use_ssl=${CONFIG_API_SSL_ENABLE}
 config_db_server_list=$config_db_server_list
 config_db_use_ssl=${CASSANDRA_SSL_ENABLE,,}
 config_db_ca_certs=$CASSANDRA_SSL_CA_CERTFILE
+cassandra_driver=$CONFIGDB_CASSANDRA_DRIVER
 
 rabbitmq_server_list=$rabbitmq_server_list
 $rabbitmq_config

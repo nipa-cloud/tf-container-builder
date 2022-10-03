@@ -7,7 +7,12 @@ pre_start_init
 wait_redis_certs_if_ssl_enabled
 
 host_ip=$(get_listen_ip_for_node ANALYTICS_ALARM)
-config_db_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+
+if [[ "$CONFIGDB_CASSANDRA_DRIVER" == "cql" ]] ; then
+  config_db_server_list=$(echo $CONFIGDB_CQL_SERVERS | sed 's/,/ /g')
+else
+  config_db_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+fi
 
 mkdir -p /etc/contrail
 cat > /etc/contrail/contrail-alarm-gen.conf << EOM
@@ -43,6 +48,7 @@ ${kafka_ssl_config}
 config_db_server_list=$config_db_server_list
 config_db_use_ssl=${CASSANDRA_SSL_ENABLE,,}
 config_db_ca_certs=$CASSANDRA_SSL_CA_CERTFILE
+cassandra_driver=$CONFIGDB_CASSANDRA_DRIVER
 
 rabbitmq_server_list=$RABBITMQ_SERVERS
 $rabbitmq_config

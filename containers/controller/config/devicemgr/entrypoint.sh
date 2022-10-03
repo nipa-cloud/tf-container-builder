@@ -5,7 +5,12 @@ source /common.sh
 pre_start_init
 
 host_ip=$(get_listen_ip_for_node CONFIG)
-cassandra_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+
+if [[ "$CONFIGDB_CASSANDRA_DRIVER" == "cql" ]] ; then
+  cassandra_server_list=$(echo $CONFIGDB_CQL_SERVERS | sed 's/,/ /g')
+else
+  cassandra_server_list=$(echo $CONFIGDB_SERVERS | sed 's/,/ /g')
+fi
 
 mkdir -p /etc/contrail
 cat > /etc/contrail/contrail-device-manager.conf << EOM
@@ -37,6 +42,9 @@ $rabbit_config
 $kombu_ssl_config
 
 collectors=$COLLECTOR_SERVERS
+
+[CASSANDRA]
+cassandra_driver=$CONFIGDB_CASSANDRA_DRIVER
 
 $sandesh_client_config
 
