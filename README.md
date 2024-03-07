@@ -122,7 +122,7 @@ They consist of:
 Kubernetes directory contains manifests which allow to deploy various layouts of Contrail with Kubernetes.
 They use corresponding config files stored in sample_config_files.
 There is also a helper script setup-k8s.sh which allows setting up kubernetes.
-Each manifest is a template which can be resolved by script ./manifests/resolve-manifest.sh. Also scripts apply.sh and delete.sh can be used to deploy or delete Contrail with automatic resolution of the template. There is a separate readme (https://github.com/tungstenfabric/tf-container-builder/tree/master/kubernetes/manifests) describing this in more details.
+Each manifest is a template which can be resolved by script ./manifests/resolve-manifest.sh. Also scripts apply.sh and delete.sh can be used to deploy or delete Contrail with automatic resolution of the template. There is a separate readme (https://github.com/opensdn-io/tf-container-builder/tree/master/kubernetes/manifests) describing this in more details.
 
 Manifests are designed in a way prescribing kubernetes to lay out Contrail roles according to labels specified in the manifest.
 
@@ -131,7 +131,7 @@ Examples of deployment are described in sections in the beginning.
 These manifests are also stored and published in a container "contrail-k8s-manifests". You can generate deployment yamls using this container:
 * Download contrail image "contrail-k8s-manifests" container from a registry of your choice (TF, Juniper, DockerHub, etc) with `docker pull`.
 * Create docker container
-``` docker create --name k8s-manifests tungstenfabric/contrail-k8s-manifests```
+``` docker create --name k8s-manifests opensdn/contrail-k8s-manifests```
 * Copy content from container to local folder
 ``` docker cp k8s-manifests:contrail-container-builder .```
 * Remove container
@@ -144,7 +144,7 @@ These manifests are also stored and published in a container "contrail-k8s-manif
 
 ### Adding new container
 
-Before adding new container, please fill in a blueprint (https://blueprints.launchpad.net/opencontrail/+specs?show=all) and spec (https://github.com/tungstenfabric/tf-specs) stating why and how you're planning to do this.
+Before adding new container, please fill in a blueprint (https://blueprints.launchpad.net/opencontrail/+specs?show=all) and spec (https://github.com/opensdn-io/tf-specs) stating why and how you're planning to do this.
 As a general rule, use existing containers as samples.
 
 To implement new container the following can be done:
@@ -186,4 +186,4 @@ Ask for advice if you still have questions (see contacts at the end)
 
 ## Contacts
 
-Please use Tungsten Fabric Slack for posting your questions: https://tungstenfabric.slack.com/messages/C0DQ4JPCZ/details/
+Please use Tungsten Fabric Slack for posting your questions: ?opensdn mailing list?

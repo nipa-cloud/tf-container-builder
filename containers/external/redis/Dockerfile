@@ -18,7 +18,7 @@ RUN \
     REDIS_RPM_NAME=redis-6.0.15-1.el7.remi.x86_64 && \
     set -ex && for item in `ls /__*` ; do mv $item /${item:3} ; done && \
     source /functions.sh && \
-    download_package https://github.com tungstenfabric/tf-third-party-cache/blob/master/redis/${REDIS_RPM_NAME}.rpm?raw=true ${REDIS_RPM_NAME}.rpm && \
+    download_package https://github.com opensdn-io/tf-third-party-cache/blob/master/redis/${REDIS_RPM_NAME}.rpm?raw=true ${REDIS_RPM_NAME}.rpm && \
     yum install ${REDIS_RPM_NAME}.rpm -y && \
     usermod -a -G $CONTRAIL_GID redis && \
     rm -rf ${REDIS_RPM_NAME}.rpm && \
