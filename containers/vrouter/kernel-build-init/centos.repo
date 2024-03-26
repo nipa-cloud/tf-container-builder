@@ -1,0 +1,18 @@
+[base]
+name=CentOS-$releasever - Base
+baseurl=http://mirrors.psu.ac.th/pub/centos/7/os/x86_64/
+enabled = 1
+gpgcheck = 0
+cost = 100
+[updates]
+name=CentOS-$releasever - Updates
+baseurl=http://mirrors.psu.ac.th/pub/centos/7/os/x86_64/
+enabled = 1
+gpgcheck = 0
+cost = 100
+[extras]
+name=CentOS-$releasever - Extras
+baseurl=http://mirrors.psu.ac.th/pub/centos/7/os/x86_64/
+enabled = 1
+gpgcheck = 0
+cost = 100
