@@ -1,5 +1,5 @@
 ARG UBUNTU_DISTR=ubuntu
-ARG UBUNTU_DISTR_VERSION=18.04
+ARG UBUNTU_DISTR_VERSION=22.04
 FROM $UBUNTU_DISTR:$UBUNTU_DISTR_VERSION
 
 ARG VENDOR_NAME
@@ -44,21 +44,21 @@ RUN \
     echo "${contrail_version}" > /contrail_version && \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y --no-install-recommends dkms libelf1 && \
-    apt-get install -y --no-install-recommends yum yum-utils rpm2cpio cpio ca-certificates && \
-    yum install -y contrail-vrouter-source && \
+    apt-get install -y --no-install-recommends dkms libelf-dev g++ && \
+    apt-get install -y --no-install-recommends dnf rpm2cpio cpio ca-certificates && \
+    dnf install -y contrail-vrouter-source && \
     mv /usr/src/* /opt/contrail/src/ && \
     vrouter_path=$(find /opt/contrail/src -type f -name "contrail-vrouter-*.tar.gz") && \
     cd  /vrouter_src && \
     tar -xf "${vrouter_path}" && \
     cd /contrail_tools && \
-    yumdownloader contrail-vrouter-utils && \
-    rpm2cpio $(ls contrail-vrouter-utils*.rpm) | cpio -iuvd && \
-    rm -f $(ls contrail-vrouter-utils*.rpm) && \
+    dnf install --downloadonly -y contrail-vrouter-utils && \
+    find /var/cache/dnf -name "contrail-vrouter-utils*.rpm" && \
+    rpm2cpio $(find /var/cache/dnf -name "contrail-vrouter-utils*.rpm") | cpio -iuvd && \
     cd .. && \
-    yum clean all -y && \
-    rm -rf /var/cache/yum && \
-    apt-get purge -y yum yum-utils rpm2cpio cpio ca-certificates && \
+    dnf clean all -y && \
+    rm -rf /var/cache/dnf && \
+    apt-get purge -y dnf rpm2cpio cpio ca-certificates && \
     apt-get autoremove -y
 
 COPY dkms.conf /opt/contrail/src/
